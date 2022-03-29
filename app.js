@@ -31,7 +31,7 @@ passport.use(new FacebookStrategy({
     //Check the DB to find a User with the profile.id
 
     //facebook_id
-    User.findOne({ facebook_id: profile.id }, function(err, user) {//See if a User already exists with the Facebook ID
+    User.findOne({ username: profile.emails[0].value }, function(err, user) {//See if a User already exists with the Facebook ID
       if(err) {
         console.log(err);  // handle errors!
       }
@@ -41,7 +41,6 @@ passport.use(new FacebookStrategy({
         const user = new User({
           first_name: profile.name.givenName,
           last_name: profile.name.familyName,
-          facebook_id: profile.id, //pass in the id and displayName params from Facebook
           username: profile.emails[0].value,
           password: profile.id
         })

@@ -5,10 +5,10 @@ var Schema = mongoose.Schema;
 var UserSchema = new Schema({
   first_name: { type: String, required: true, maxLength: 100 },
   last_name: { type: String, required: true, maxLength: 100 },
-  facebook_id: { type: Schema.Types.Mixed },
   username: { type: String, required: true },
   password: { type: String, required: true },
-  friends: [{ type: Schema.ObjectId, ref: 'Friends' }]
+  friends: [{ type: Schema.ObjectId, ref: 'Friends' }],
+  requests: [{ type: Schema.ObjectId, ref: 'Requests' }]
 });
 
 UserSchema.virtual('name').get(function() {

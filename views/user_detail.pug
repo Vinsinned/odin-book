@@ -1,0 +1,29 @@
+extends layout
+
+block content
+  h1= user.name 
+  if (localUser.requests.includes(user.id) === false && localUser.friends.includes(user.id) === false && user.requests.includes(localUser.id))
+    a(href='/user' + user.url + '/friends/cancel' + localUser.url) Pending Friend Request 
+  else if (localUser.requests.includes(user.id))
+    a(href='/user' + user.url + '/friends/accept' + localUser.url) Accept Friend Request 
+    //a(href='/user' + user.url + '/friends/deny') Deny Friend Request 
+  else if localUser.friends.includes(user.id)
+    a(href='/user' + user.url + '/friends/remove' + localUser.url) Remove Friend
+  else if user.requests.includes(localUser.id) === false
+    a(href='/user' + user.url + '/friends/add' + localUser.url) Add Friend
+
+  h2 Friends
+  if (user.friends.length === 0)
+    p #{user.name} currently has no friends
+  else 
+    p Friends 
+  
+  h2 Posts 
+  if (posts.length === 0)
+    p There are no posts
+  else  
+    p Posts
+
+  
+  
+  
