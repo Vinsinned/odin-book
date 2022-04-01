@@ -89,15 +89,15 @@ router.get('/log-in-facebook', checkLoggedIn,
 
 router.get('/users', controller.user_list);
 
-router.get('/:id', controller.user_detail);
+router.get('/:id', protectRoute, controller.user_detail);
 
-router.get('/:id/friends/add/:localsId', controller.add_friend);
+router.get('/:id/friends/add/:localsId', protectRoute, controller.add_friend);
 
-router.get('/:id/friends/cancel/:localsId', controller.remove_request);
+router.get('/:id/friends/cancel/:localsId', protectRoute, controller.remove_request);
 
-router.get('/:id/friends/accept/:localsId', controller.accept_friend);
+router.get('/:id/friends/accept/:localsId', protectRoute, controller.accept_friend);
 
-router.get('/:id/friends/remove/:localsId', controller.remove_friend);
+router.get('/:id/friends/remove/:localsId', protectRoute, controller.remove_friend);
 
 function checkLoggedIn(req,res,next){
   if(req.user !== undefined){

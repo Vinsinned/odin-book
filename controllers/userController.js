@@ -2,7 +2,6 @@ var async = require('async')
 const User = require('../models/user');
 const Posts = require('../models/posts');
 const user = require('../models/user');
-const { locals } = require('../app');
 
 exports.user_list = function (req, res, next) {
 
@@ -58,7 +57,7 @@ exports.add_friend = function (req, res, next) {
 				console.log('request already sent!');
 				return res.redirect('/user/' + req.params.id);
 			} else {
-				User.findByIdAndUpdate(req.params.id, { requests: req.params.localsId  }, function(err, result){
+				User.findByIdAndUpdate(req.params.id, { $push: { requests: req.params.localsId } }, function(err, result){
 					if(err){
 						return res.send(err)
 					} else {
