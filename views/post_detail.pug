@@ -31,4 +31,5 @@ block content
 
       if user 
         if (comment.user == user.id) 
-          a(href='/posts/comments/delete' + post.url) Delete Comment
+          a(href='/posts' + post.url + '/comments/delete' + comment.url) Delete Comment
+          a(href='/posts' + post.url + '/comments/update' + comment.url) Update Comment

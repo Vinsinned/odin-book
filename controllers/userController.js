@@ -18,25 +18,45 @@ exports.user_list = function (req, res, next) {
 
 exports.user_detail = function (req, res, next) {
 
-	async.parallel({
-		user: function (callback) {
-			User.findById(req.params.id)
-				.exec(callback)
-		},
-		posts: function (callback) {
-			Posts.find({ 'user': req.params.id })
-				.exec(callback)
-		},
-	}, function (err, results) {
+	User.findById(req.params.id)
+	.exec(function (err, result) {
+		const userInfo = result;
 		if (err) { return next(err); } // Error in API usage.
-		if (results.user == null) { // No results.
+		if (result == null) { // No results.
 			var err = new Error('User not found');
 			err.status = 404;
 			return next(err);
 		}
-		// Successful, so render.
-		res.render('user_detail', { title: 'User Detail', user: results.user, posts: results.posts, localUser: req.user });
-	});
+		Posts.find({ $match: { 'user': { $in: userInfo.friends } } })
+		.exec(function (err, result) {
+			const postsInfo = result;
+			if (err) { return next(err); } // Error in API usage.
+			User.find({ friends: req.params.id })
+			.exec(function (err, result) { 
+				const friendsInfo = result;
+				if (err) { return next(err); } // Error in API usage.
+				res.render('user_detail', { title: 'User Detail', user: userInfo, posts: postsInfo, friends: friendsInfo, localUser: req.user });
+			})
+		})
+	})
+
+	/*
+	User.findById(req.params.id)
+	.exec(function (err, result) {
+		const userInfo = result;
+		if (err) { return next(err); } // Error in API usage.
+		if (result == null) { // No results.
+			var err = new Error('User not found');
+			err.status = 404;
+			return next(err);
+		}
+		Posts.find({ $match: { 'user': { $in: userInfo.friends } } })
+		.exec(function (err, result) {
+			if (err) { return next(err); } // Error in API usage.
+			res.render('user_detail', { title: 'User Detail', user: userInfo, posts: result, localUser: req.user });
+		})
+	})
+	*/
 
 };
 
@@ -77,47 +97,63 @@ exports.add_friend = function (req, res, next) {
 exports.remove_request = function (req, res, next) {
 
 	User.findById(req.params.id)
-	.exec(function (err, result) {
-		if (err) { return next(err); } // Error in API usage.
-		if (result.friends.includes(req.params.localsId)) {
-			console.log('already friends!')
-			return res.redirect('/user/' + req.params.id);
-		} else {
-			if (result.requests.includes(req.params.localsId)) {
-				User.findByIdAndUpdate(req.params.id, { $pull: { requests: req.params.localsId }  }, function(err, result){
-					if(err){
-						return res.send(err)
-					} else {
-						result.save(function (err) {
-							if (err) { return next(err); }
-							return res.redirect('/user/' + req.params.id);
-						});
-					}
-				})
-			} else {
-				console.log('no requests already sent!');
+		.exec(function (err, result) {
+			if (err) { return next(err); } // Error in API usage.
+			if (result.friends.includes(req.params.localsId)) {
+				console.log('already friends!')
 				return res.redirect('/user/' + req.params.id);
+			} else {
+				if (result.requests.includes(req.params.localsId)) {
+					User.findByIdAndUpdate(req.params.id, { $pull: { requests: req.params.localsId } }, function (err, result) {
+						if (err) {
+							res.send(err)
+							return res.redirect('/user/' + req.params.id);
+						} else {
+							result.save(function (err) {
+								if (err) { return next(err); }
+								return res.redirect('/user/' + req.params.id);
+							});
+						}
+					})
+					User.findByIdAndUpdate(req.params.localsId, { $pull: { requests: req.params.id } }, function (err, result) {
+						if (err) {
+							res.send(err);
+							return res.redirect('/user/' + req.params.id);
+						} else {
+							result.save(function (err) {
+								if (err) { return next(err); }
+								return res.redirect('/user/' + req.params.id);
+							});
+						}
+					})
+					res.redirect('/user/' + req.params.id);
+				} else {
+					console.log('no requests already sent!');
+					return res.redirect('/user/' + req.params.id);
+				}
 			}
-		}
-	})
+		});
+	res.redirect('/user/' + req.params.id);
 };
 
 exports.accept_request = function (req, res, next) {
 
 	User.findById(req.params.id)
-	.exec(function (err, result) {
-		if (err) { return next(err); } // Error in API usage.
-		User.findByIdAndUpdate(req.params.id, { $pull: { requests: req.params.localsId }  }, { friends: req.params.localsId }, function(err, result){
-			if(err){
-				return res.send(err)
-			} else {
-				result.save(function (err) {
-					if (err) { return next(err); }
+		.exec(function (err, result) {
+			if (err) { return next(err); } // Error in API usage.
+			User.findByIdAndUpdate(req.params.id, { $pull: { requests: req.params.localsId } }, { friends: req.params.localsId }, function (err, result) {
+				if (err) {
+					res.send(err);
 					return res.redirect('/user/' + req.params.id);
-				});
-			}
-		})
-	})
+				} else {
+					result.save(function (err) {
+						if (err) { return next(err); }
+						return res.redirect('/user/' + req.params.id);
+					});
+				}
+			})
+		});
+	res.redirect('/user/' + req.params.id);
 };
 
 exports.accept_friend = function (req, res, next) {
@@ -126,7 +162,8 @@ exports.accept_friend = function (req, res, next) {
 		function (callback) {
 			User.findByIdAndUpdate(req.params.id, { $pull: { requests: req.params.localsId }, friends: req.params.localsId }, function (err, result) {
 				if (err) {
-					return res.send(err)
+					res.send(err)
+					return res.redirect('/user/' + req.params.id);
 				} else {
 					result.save(function (err) {
 						if (err) { return next(err); }

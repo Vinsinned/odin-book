@@ -89,7 +89,7 @@ router.get('/log-in-facebook', checkLoggedIn,
 
 router.get('/users', controller.user_list);
 
-router.get('/:id', protectRoute, controller.user_detail);
+router.get('/:id', controller.user_detail);
 
 router.get('/:id/friends/add/:localsId', protectRoute, controller.add_friend);
 

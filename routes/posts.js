@@ -32,7 +32,13 @@ router.get('/comments/create/:id', protectRoute, commentController.comment_creat
 
 router.post('/comments/create/:id', protectRoute, commentController.comment_create_post);
 
-router.get('/comments/delete/:id', protectRoute, commentController);
+router.get('/:postId/comments/delete/:id', protectRoute, commentController.comment_delete_get);
+
+router.post('/:postId/comments/delete/:id', protectRoute, commentController.comment_delete_post);
+
+router.get('/:postId/comments/update/:id', protectRoute, commentController.comment_update_get);
+
+router.post('/:postId/comments/update/:id', protectRoute, commentController.comment_update_post);
 
 function protectRoute(req,res,next){
   // if user exists the token was sent with the request

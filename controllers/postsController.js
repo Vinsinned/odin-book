@@ -101,12 +101,31 @@ exports.post_delete_get = function(req, res, next) {
 
 };
 
-exports.post_delete_post = function(req, res, next) {
+exports.post_delete_post = function (req, res, next) {
 	
-	// Assume valid BookInstance id in field.
-	Post.findByIdAndRemove(req.body.id, function deletePost(err) {
-		if (err) { return next(err); }
-		// Success, so redirect to list of BookInstance items.
+	async.parallel({
+		post: function (callback) {
+			Post.findById(req.params.id)
+			.exec(callback)
+		},
+		comments: function (callback) {
+			Comment.find({ 'post': req.params.id })
+			.exec(callback)
+		},
+  }, function (err, results) {
+		if (err) { return next(err); } // Error in API usage.
+		if (results.post == null) { // No results.
+			var err = new Error('Author not found');
+			err.status = 404;
+			return next(err);
+		}
+		// Successful, so render.
+		Post.findByIdAndRemove(req.body.id, function deletePost(err) {
+			if (err) { return next(err); }
+		});
+		Comment.deleteMany({ 'post': req.params.id }).exec(function (err, result) {
+			if (err) { return next(err); }
+		});
 		res.redirect('/posts');
 	});
 
