@@ -7,6 +7,7 @@ block content
   each post in post_list
     li 
       a(href='/posts' + post.url) #{post.title} 
+      p= post.user
 
   else
     li There are no posts.

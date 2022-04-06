@@ -8,7 +8,66 @@ html
     script(src="https://code.jquery.com/jquery-3.5.1.slim.min.js", integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj", crossorigin="anonymous")
     script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js", integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV", crossorigin="anonymous")
     link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel="stylesheet", href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp")
   body
+    header 
+      nav.navbar 
+        ul.navbarUl
+          .flexLeft
+            li 
+              img(src='https://www.theodinproject.com/assets/icons/odin-icon-b5b31c073f7417a257003166c98cc23743654715305910c068b93a3bf4d3065d.svg' alt='logo' class="logo")
+            li 
+              .searchDiv
+                span.material-icons-outlined.searchIcon search
+                input(type='text' class="searchInput" placeholder="Search Odinbook")
+          .flexCenter
+            li  
+              span.material-icons home
+              p.navbarText Home
+            li  
+              span.material-icons people_alt
+              p.navbarText Friends
+            li  
+              span.material-icons-outlined ondemand_video
+              p.navbarText Watch
+            li  
+              span.material-icons-outlined storefront
+              p.navbarText Marketplace
+            li.menuIcon  
+              span.material-icons-outlined menu
+              p.navbarText More
+            li.gamingIcon  
+              span.material-icons-outlined sports_esports
+              p.navbarText Gaming
+          .flexRight 
+            .userInfo
+              if user 
+                if user.image
+                  if user.image === "none"
+                    img(src="http://s3.amazonaws.com/37assets/svn/765-default-avatar.png" alt="Profile Picture" class="profilePicture")
+                  else
+                    img(src=user.image alt="Profile Picture" class="profilePicture")
+                else 
+                  img(src="http://graph.facebook.com/" + user.password + "/picture?type=square" class="profilePicture" alt="Profile Picture")
+                p.userFirstName= user.first_name
+            .flexRightIcons
+              li.appsIcon
+                span.material-icons-outlined apps
+                p.navbarText Menu
+              li.addIcon 
+                span.material-icons-outlined add
+                p.navbarText Create
+              li 
+                span.material-icons-outlined chat_bubble
+                p.navbarText Messenger
+              li  
+                span.material-icons notifications
+                p.navbarText Notifications
+              li  
+                span.material-icons arrow_drop_down
+                p.navbarText Account
+
+
     p
       a(href='/user/sign-up') Sign Up
     p

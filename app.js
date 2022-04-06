@@ -25,7 +25,7 @@ passport.use(new FacebookStrategy({
     clientSecret: process.env.APP_SECRET,
     //Remember to put your domain, dummby mistake from em
     callbackURL: 'http://localhost:3000/user/log-in-facebook',
-    profileFields: ['emails', 'name']
+    profileFields: ['emails', 'name', 'picture.type(normal)']
   },
   function(accessToken, refreshToken, profile, done) {
     //Check the DB to find a User with the profile.id

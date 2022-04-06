@@ -30,6 +30,15 @@ block content
       each post in posts 
         li 
           a(href='/posts' + post.url) #{post.title}
+  
+  h2 Friends' Posts
+  if (friendPosts.length === 0)
+    p There are no posts from friends
+  else  
+    ul
+      each post in friendPosts 
+        li 
+          a(href='/posts' + post.url) #{post.title}
 
   
   

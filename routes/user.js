@@ -30,6 +30,12 @@ router.post('/sign-up', [
   (req, res, next) => {
 
     const errors = validationResult(req);
+    let image;
+    if (req.body.image.length === 0) {
+      image = 'none';
+    } else {
+      image = req.body.image;
+    }
 
     bcrypt.hash(req.body.password, 10, (err, hashedPassword) => {
       if (err) { return next(err) }
@@ -39,7 +45,8 @@ router.post('/sign-up', [
         last_name: req.body.last_name,
         facebook_id: false,
         username: req.body.username,
-        password: hashedPassword
+        password: hashedPassword,
+        image: image
       })
 
       if (!errors.isEmpty()) {
@@ -89,8 +96,6 @@ router.get('/log-in-facebook', checkLoggedIn,
 
 router.get('/users', controller.user_list);
 
-router.get('/:id', controller.user_detail);
-
 router.get('/:id/friends/add/:localsId', protectRoute, controller.add_friend);
 
 router.get('/:id/friends/cancel/:localsId', protectRoute, controller.remove_request);
@@ -98,6 +103,8 @@ router.get('/:id/friends/cancel/:localsId', protectRoute, controller.remove_requ
 router.get('/:id/friends/accept/:localsId', protectRoute, controller.accept_friend);
 
 router.get('/:id/friends/remove/:localsId', protectRoute, controller.remove_friend);
+
+router.get('/:id', controller.user_detail);
 
 function checkLoggedIn(req,res,next){
   if(req.user !== undefined){

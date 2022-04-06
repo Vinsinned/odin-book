@@ -20,6 +20,9 @@ block content
         br
         label(for='confirmPassword') Confirm Password:
         input#confirmPassword.form-control(type='text', placeholder='Confirm Password' name='confirmPassword' required='true' value=(undefined===user ? '' : user.confirmPassword))
+      div.form-group
+        label(for='image') Profile Image:
+        input#image.form-control(type='text', placeholder='Link' name='image' value=(undefined===user ? '' : user.password))
       button.btn.btn-primary(type='submit') Submit
 
     if errors 

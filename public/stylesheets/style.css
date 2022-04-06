@@ -1,8 +1,211 @@
 body {
-  padding: 50px;
+  margin: 0;
+  padding: 0;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
-
 a {
   color: #00B7FF;
+}
+
+/* Navbar */
+.navbar {
+  background-color: #242526;
+  color: #e4e6eb;
+  border-bottom: 1px solid #393a3b;
+}
+.navbarUl {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.navbarText {
+  background-color: #242526;
+  z-index: 1;
+}
+.navbarUl li {
+  cursor: pointer;
+  position: relative;
+}
+.navbarUl .navbarText {
+  position: absolute;
+  visibility:hidden;
+  border: 1px solid #e4e6eb;
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+}
+.navbarUl li:hover .navbarText {
+  visibility: visible;
+  width: 100%;
+}
+.logo {
+  width: 3.125rem;
+  height: 3.125rem;
+}
+.flexLeft {
+  display: flex;
+  align-items: center;
+}
+.searchDiv {
+  color: #b0b3b8;
+  background-color: #3a3b3c;
+  border-radius: 50px;
+  display: flex;
+  box-sizing: border-box;
+  align-items: center;
+  margin-left: 0.75rem;
+}
+.searchIcon {
+  min-width: 40px;
+  padding-left: 0.75rem;
+}
+.searchInput {
+  padding: 7px 8px 9px;
+  background-color: #3a3b3c;
+  border: none;
+  border-radius: 50px;
+  color: #e4e6eb;
+}
+.flexCenter {
+  display: flex;
+  justify-content: center;
+  width: 50vw;
+  color: #b0b3b8;
+}
+.flexCenter li:hover {
+  background-color: #464444;
+}
+.flexCenter li {
+  min-width: 50px;
+  flex-grow: 1;
+  text-align: center;
+  height: 3rem;
+  padding-top: 0.6rem;
+  margin-right: 0.25rem;
+  border-radius: 1rem;
+}
+.flexCenter li span {
+  font-size: 1.75rem;
+}
+.flexRight {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.userInfo {
+  display: flex;
+  align-items: center;
+  margin-right: 0.5rem;
+  padding: 0rem 0.5rem;
+  border-radius: 50px;
+  height: 2.25rem;
+  cursor: pointer;
+}
+.userInfo:hover {
+  background-color: #464444;
+}
+.userFirstName {
+  font-weight: 800;
+  margin-top: 1rem;
+  margin-left: 0.25rem;
+}
+.profilePicture {
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+}
+.flexRight li {
+  background-color: #3a3b3c;
+  border-radius: 50px;
+  width: 2.5rem;
+  height: 2.5rem;
+}
+.flexRight li:not(:last-child) {
+  margin-right: 0.5rem;
+}
+.flexRight li:hover .navbarText {
+  visibility: visible;
+  width: 225%;
+  overflow: hidden;
+  text-align: center;
+}
+.flexRight li:hover:last-child .navbarText {
+  visibility: visible;
+  width: 225%;
+  overflow: hidden;
+  text-align: center;
+  padding-right: 100px;
+}
+.flexRight li span {
+  padding-left: 0.5rem;
+  padding-top: 0.5rem;
+}
+.flexRightIcons {
+  display: flex;
+}
+.flexRightIcons li:hover {
+  background-color: #464444;
+}
+
+@media (max-width:700px) {
+  .flexCenter {
+    display: none;
+  }
+  .appsIcon {
+    display: none;
+  }
+}
+
+@media (min-width:701px) {
+  .gamingIcon {
+    display: none;
+  }
+  .appsIcon {
+    display: none;
+  }
+}
+
+@media (max-width:1025px) {
+  .searchDiv {
+    height: 2.5rem;
+  }
+  .searchInput {
+    display: none;
+  }
+  .searchIcon {
+    padding-left: 0.5rem;
+  }
+  .userInfo {
+    display: none;
+  }
+}
+
+@media (min-width:1025px) {
+  .appsIcon {
+    display: block;
+  }
+  .addIcon {
+    display: none;
+  }
+  .menuIcon {
+    display: none;
+  }
+  .gamingIcon {
+    display: block;
+  }
+  .userInfo {
+    display: flex;
+  }
+}
+
+@media (min-width:1260px) {
+  .searchInput {
+    display: block;
+  }
+  .searchDiv {
+    height: 2.75rem;
+  }
 }
