@@ -21,7 +21,8 @@ html
                 span.material-icons-outlined.searchIcon search
                 input(type='text' class="searchInput" placeholder="Search Odinbook")
           .flexCenter
-            li  
+            //test for now!
+            li#currentSection
               span.material-icons home
               p.navbarText Home
             li  
@@ -67,22 +68,80 @@ html
                 span.material-icons arrow_drop_down
                 p.navbarText Account
 
+    main
 
-    p
-      a(href='/user/sign-up') Sign Up
-    p
-      a(href='/user/log-in') Log In
-    p
-      a(href='/user/log-out') Log Out
-    p
-      a(href='/user/log-in-facebook') Log In (Facebook)
-    p
-      a(href='/user/users') Users
-    hr
-    p
-      a(href='/posts') Posts
-    p
-      a(href='/posts/create') Create Post
-    block content
+      section.leftSideSection
+        nav.leftSideNavbar
+          ul 
+            li 
+              if user 
+                if user.image
+                  if user.image === "none"
+                    img(src="http://s3.amazonaws.com/37assets/svn/765-default-avatar.png" alt="Profile Picture" class="profilePicture")
+                  else
+                    img(src=user.image alt="Profile Picture" class="profilePicture")
+                else 
+                  img(src="http://graph.facebook.com/" + user.password + "/picture?type=square" class="profilePicture" alt="Profile Picture")
+                p.leftsideNavbarPara #{user.first_name} #{user.last_name}
+            li
+              img(src="https://static.xx.fbcdn.net/rsrc.php/v3/y8/r/S0U5ECzYUSu.png" alt="" class="leftSidebarNav")
+              p.leftsideNavbarPara Find friends
+            li
+              img(src="https://static.xx.fbcdn.net/rsrc.php/v3/y5/r/PrjLkDYpYbH.png" alt="" class="leftSidebarNav")
+              p.leftsideNavbarPara Groups
+            li
+              img(src="https://static.xx.fbcdn.net/rsrc.php/v3/yU/r/D2y-jJ2C_hO.png" alt="" class="leftSidebarNav")
+              p.leftsideNavbarPara Marketplace
+            li
+              img(src="https://static.xx.fbcdn.net/rsrc.php/v3/y5/r/duk32h44Y31.png" alt="" class="leftSidebarNav")
+              p.leftsideNavbarPara Watch
+            li
+              img(src="https://static.xx.fbcdn.net/rsrc.php/v3/y8/r/he-BkogidIc.png" alt="" class="leftSidebarNav")
+              p.leftsideNavbarPara Memories
+            li
+              img(src="https://static.xx.fbcdn.net/rsrc.php/v3/yD/r/lVijPkTeN-r.png" alt="" class="leftSidebarNav")
+              p.leftsideNavbarPara Saved
+            li
+              img(src="https://static.xx.fbcdn.net/rsrc.php/v3/yH/r/kyCAf2jbZvF.png" alt="" class="leftSidebarNav")
+              p.leftsideNavbarPara Pages
+            li
+              img(src="https://static.xx.fbcdn.net/rsrc.php/v3/yT/r/jEh7gupryIB.png" alt="" class="leftSidebarNav")
+              p.leftsideNavbarPara News
+            li
+              img(src="https://static.xx.fbcdn.net/rsrc.php/v3/yu/r/eXC82ZeepQ7.png" alt="" class="leftSidebarNav")
+              p.leftsideNavbarPara Events
+            li
+              img(src="https://static.xx.fbcdn.net/rsrc.php/v3/yc/r/hTN47HVa4oS.png" alt="" class="leftSidebarNav")
+              p.leftsideNavbarPara Most Recent
+            li.seeMoreLeftIcon
+              span.material-icons-outlined expand_more
+              p.leftsideNavbarPara See more
+      
+      section.display
+        block content
+
+      section.rightSideSection  
+        nav.rightSideNavbar 
+          .rightSideSponsored
+            h3.rightSideHeadings Sponsored 
+            img(src='https://i.ibb.co/b2dD0ww/bbbb.jpg' alt='ad' class='ad')
+          h3.linksHeading.rightSideHeadings Links
+          ul.rightSideList
+            if user
+              li
+                a(href='/user/log-out') Log Out
+              li
+                a(href='/posts/create') Create Post
+            else
+              li
+                a(href='/user/sign-up') Sign Up
+              li
+                a(href='/user/log-in') Log In
+              li
+                a(href='/user/log-in-facebook') Log In (Facebook)
+            li
+              a(href='/user/users') Users
+            li
+              a(href='/posts') Posts
     
 

@@ -1,5 +1,39 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  
+  section.createStoryDiv 
+    .createStorySubdiv
+      span.material-icons-outlined.createStoryAdd add
+      .createStoryRight 
+        h3.createStoryHeading Create story 
+        p.createStoryPara Share a photo or write something
+  
+  section.createPost 
+    .createPostTop
+      if user 
+        if user.image
+          if user.image === "none"
+            img(src="http://s3.amazonaws.com/37assets/svn/765-default-avatar.png" alt="Profile Picture" class="createPostPicture")
+          else
+            img(src=user.image alt="Profile Picture" class="profilePicture")
+        else 
+          img(src="http://graph.facebook.com/" + user.password + "/picture?type=square" alt="Profile Picture" class="createPostPicture")
+      input(type="text" placeholder=`What's on your mind, ${user.first_name}?` class="createPostInput")
+    .createPostBottom 
+      .liveVideo.bottomChoices 
+        span.material-icons-outlined.videocamIcon videocam
+        p Live video
+      .photoVideo.bottomChoices  
+        span.material-icons-outlined.photosIcon photo_library
+        p Photo/video
+      .feelingActivity.bottomChoices 
+        span.material-icons-outlined.emojiIcon emoji_emotions
+        p Feeling/activity
+  
+  section.rooms
+    .createRoomContainer
+      .createRoom 
+        i(data-visualcompletion="css-img" class="createRoomIcon" 
+        style="background-image:url('https://static.xx.fbcdn.net/rsrc.php/v3/ym/r/5zaboDASSye.png');background-position:0 -219px;background-size:auto;width:24px;height:24px;background-repeat:no-repeat;display:inline-block")
+        p.createRoomPara Create room
